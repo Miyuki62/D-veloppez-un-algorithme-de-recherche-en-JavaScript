@@ -1,0 +1,13 @@
+@media all and (min-width: 800px) {
+	/*filtre version desktop*/
+	.filtre-container {
+		flex-wrap: wrap;
+		flex-direction: row;
+	}
+	.recherche-filtre {
+		max-width: 200px;
+	}
+	.filtre-container {
+		flex-direction: row;
+	}
+}
