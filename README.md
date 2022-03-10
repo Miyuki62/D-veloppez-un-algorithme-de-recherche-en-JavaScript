@@ -1,1 +1,1 @@
-ProJect 7 front-end openclassroom
+Project 7 openclassrooms dev front-end
