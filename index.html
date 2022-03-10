@@ -1,38 +1,100 @@
 <!DOCTYPE html>
-	<html lang="fr">
-		<head>
-			<!-- Required meta tags -->
-			<meta charset="utf-8" />
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="fr">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-			<!-- Bootstrap CSS -->
-			<link
-				href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-				rel="stylesheet"
-				integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-				crossorigin="anonymous"
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+		<title>Hello, world!</title>
+	</head>
+	<body>
+		<header>
+			<img
+				src="assets/images/logo.png"
+				alt="logo Les petits plats"
+				class="logo rounded mx-auto d-block"
 			/>
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-			<link href="css/style.css" rel="stylesheet" type="text/css" />
-
-			<title>Hello, world!</title>
-		</head>
-		<body>
-			<header>
-				<img
-					src="assets/images/logo.png"
-					alt="logo Les petits plats"
-					class="logo rounded mx-auto d-block"
+		</header>
+		<!-- recherche principal -->
+		<div class="container">
+			<div class="input-box">
+				<input
+					type="search"
+					placeholder="Rechercher une recette"
+					class="form-control search-bar"
 				/>
-			</header>
-			<div class="container">
-				 <div class="input-box"> <input type="text" placeholder="Rechercher une recette" class="form-control search-bar"> <i class="fa fa-search fa-2x" aria-hidden="true"> </i> </div>
+				<i class="fa fa-search fa-2x" aria-hidden="true"> </i>
 			</div>
-			<script
-				src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-				integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-				crossorigin="anonymous"
-			></script>
-		</body>
-	</html>
-</DOCTYPE>
+
+			<!-- filtre -->
+			<div class="filtre">
+				<!-- tag -->
+				<div class="tag-container">
+					<div class="tag-select"></div>
+					<div class="tag-select tag-select-ingredients">
+						pafhbnaklgfbalkfbalib<i
+							class="fa fa-times-circle"
+							aria-hidden="true"
+						></i>
+					</div>
+					<div class="tag-select tag-select-ingredients">
+						test<i class="fa fa-times-circle" aria-hidden="true"></i>
+					</div>
+				</div>
+				<div class="filtre-container">
+					<!-- filtre Ingredients -->
+					<div class="recherche-ingredients recherche-filtre">
+						<input
+							type="search"
+							placeholder="Ingrédients"
+							class="ingredients__input"
+						/>
+						<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>
+						<ul class="liste-ingredients liste"></ul>
+					</div>
+					<!-- filtre Appareil -->
+					<div class="recherche-appareil recherche-filtre">
+						<input
+							type="search"
+							placeholder="Appareil"
+							class="appareil__input"
+						/>
+						<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>
+						<ul class="liste-appareil liste"></ul>
+					</div>
+					<!-- filtre ustensiles -->
+					<div class="recherche-ustensiles recherche-filtre">
+						<input
+							type="search"
+							placeholder="Ustensiles"
+							class="ustensiles__input"
+						/>
+						<i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>
+						<i class="fa fa-times-circle" aria-hidden="true"></i>
+						<i class="fa fa-clock-o" aria-hidden="true"></i>
+						<ul class="liste-ustensiles liste"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+			crossorigin="anonymous"
+		></script>
+		<script type="module" src="./js/main.js"></script>
+	</body>
+</html>

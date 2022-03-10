@@ -3,14 +3,23 @@
 	height: auto;
 	max-width: 200px;
 	text-align: center;
+	margin-top: 20px;
 }
+
+/*bare de recherche principal*/
 .search-bar {
 	background-color: #e7e7e7;
 	margin-top: 10px;
 	height: 50px;
 	border: none;
 }
-
+.search-bar:focus {
+	background-color: #e7e7e7;
+	border: none;
+}
+.search-bar::placeholder {
+	color: #c7bebe;
+}
 .input-box {
 	position: relative;
 }
@@ -20,4 +29,145 @@
 	right: 13px;
 	top: 10px;
 	color: black;
+}
+/*filtre*/
+.filtre {
+	margin-bottom: 15px;
+}
+.filtre-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag-select {
+	display: flex;
+	margin-bottom: 20px;
+}
+.tag-select-ingredients {
+	background-color: #3282f7;
+}
+.tag-select-appareil {
+	background-color: #68d9a4;
+}
+.tag-select-ustensiles {
+	background-color: #ed6454;
+}
+.tag-container {
+	display: flex;
+	margin-top: 20px;
+	gap: 10px;
+	margin-left: -10px;
+}
+.tag-select {
+	color: white;
+	border-radius: 5px;
+	align-items: center;
+}
+.tag-select i {
+	padding-left: 15px;
+	padding-right: 5px;
+	cursor: pointer;
+}
+
+.recherche-filtre {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 20px;
+	width: 170px;
+	height: 69px;
+	font-family: "lato", sans-serif;
+	font-weight: bold;
+	border: none;
+	border-radius: 5px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	color: white;
+}
+.recherche-filtre::after {
+	display: none;
+}
+.recherche-filtre input {
+	width: 100%;
+	height: 100%;
+	font-size: 18px;
+	border: none;
+}
+.recherche-filtre input::placeholder,
+.recherche-filtre input:focus-visible {
+	color: white;
+	outline: none;
+}
+.recherche-filtre i {
+	cursor: pointer;
+}
+
+.recherche-ingredients {
+	background-color: #3282f7;
+}
+.recherche-ingredients input {
+	background-color: #3282f7;
+}
+
+.recherche-appareil {
+	background-color: #68d9a4;
+}
+.recherche-appareil input {
+	background-color: #68d9a4;
+}
+
+.recherche-ustensiles {
+	background-color: #ed6454;
+}
+.recherche-ustensiles input {
+	background-color: #ed6454;
+}
+
+.liste {
+	position: absolute;
+	top: 65px;
+	left: 0;
+	width: 100%;
+	column-width: 170px;
+	padding-bottom: 1rem;
+	color: white;
+	border-radius: 0 0 5px 5px;
+	display: none;
+	z-index: 100;
+}
+.liste__element {
+	font-family: "lato", sans-serif;
+	font-weight: 400;
+	font-size: 1.125rem;
+	padding-inline: 20px;
+	margin-bottom: 1rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+}
+.liste p {
+	padding-left: 20px;
+}
+
+.liste-ingredients {
+	background-color: #3282f7;
+}
+.liste-ingredients li:hover {
+	background-color: #0966ed;
+}
+
+.liste-appareil {
+	background-color: #68d9a4;
+}
+.liste-appareil li:hover {
+	background-color: #3fcf8b;
+}
+
+.liste-ustensiles {
+	background-color: #ed6454;
+}
+.liste-ustensiles li:hover {
+	background-color: #e83a26;
 }
