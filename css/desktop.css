@@ -10,4 +10,9 @@
 	.filtre-container {
 		flex-direction: row;
 	}
+	.card-container {
+		justify-content: flex-start;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
 }

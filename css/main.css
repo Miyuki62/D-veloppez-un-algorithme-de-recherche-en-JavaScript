@@ -178,3 +178,38 @@
 .liste-ustensiles li:hover {
 	background-color: #e83a26;
 }
+/*carte*/
+.card-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 30px;
+}
+
+.card {
+	width: 350px;
+	height: 400px;
+	align-self: center;
+}
+.card-body {
+	display: flex;
+	flex-direction: column;
+}
+.card-header-container {
+	display: flex;
+	justify-content: space-between;
+}
+.card-time {
+	display: flex;
+	gap: 5px;
+	align-items: baseline;
+	font-size: 20px;
+}
+.card-texte-container {
+	display: flex;
+}
+.card-texte-container p,
+.list {
+	font-size: 13px;
+	width: 50%;
+}
