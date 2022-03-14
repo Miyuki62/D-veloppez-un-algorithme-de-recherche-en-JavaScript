@@ -49,16 +49,15 @@ recipes.forEach((recipes) => {
 		if (typeof recipes.ingredients[i].quantity == "undefined") {
 		} else {
 			cardListItem[a].textContent += " " + recipes.ingredients[i].quantity;
-			console.log("marche1");
 		}
 
 		if (typeof recipes.ingredients[i].unit == "undefined") {
 		} else {
 			cardListItem[a].textContent += " " + recipes.ingredients[i].unit;
-			console.log("marche2");
 		}
 	}
 	//
+	cardDescription.setAttribute("class", "card-description ");
 	cardDescription.textContent = recipes.description;
 	//
 	CardDiv.appendChild(cardMaster);

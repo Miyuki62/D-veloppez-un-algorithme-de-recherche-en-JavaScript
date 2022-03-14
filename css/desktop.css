@@ -1,4 +1,4 @@
-@media all and (min-width: 800px) {
+@media all and (min-width: 1000px) {
 	/*filtre version desktop*/
 	.filtre-container {
 		flex-wrap: wrap;
@@ -11,8 +11,16 @@
 		flex-direction: row;
 	}
 	.card-container {
-		justify-content: flex-start;
+		justify-content: center;
 		flex-direction: row;
 		flex-wrap: wrap;
+	}
+}
+@media all and (min-width: 1550px) {
+	/*filtre version desktop*/
+	.card-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: 30px;
 	}
 }

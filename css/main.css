@@ -187,8 +187,8 @@
 }
 
 .card {
-	width: 350px;
-	height: 400px;
+	width: 450px;
+	height: 550px;
 	align-self: center;
 }
 .card-body {
@@ -198,18 +198,44 @@
 .card-header-container {
 	display: flex;
 	justify-content: space-between;
+	height: 50px;
+}
+.card-title {
+	font-size: 16px;
+	display: flex;
+	flex-wrap: nowrap;
+	width: 50%;
 }
 .card-time {
 	display: flex;
+	flex-wrap: nowrap;
 	gap: 5px;
 	align-items: baseline;
-	font-size: 20px;
+	font-size: 17px;
+	font-weight: bold;
+	justify-content: flex-end;
+	width: 40%;
 }
 .card-texte-container {
 	display: flex;
+	height: 180px;
+}
+.card-description {
+	height: 100%;
+	overflow: hidden;
+	width: 100%;
+}
+.list {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+.list-item {
+	width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .card-texte-container p,
 .list {
-	font-size: 13px;
-	width: 50%;
+	font-size: 12px;
 }
