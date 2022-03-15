@@ -1,7 +1,33 @@
 // importer les recipes
 import { recipes } from "./recipes.js";
+var arrayIngredients = [];
 
 //gestion des filtre
+const ingredientsList = document.querySelector(".liste-ingredients");
+const appareilList = document.querySelector(".liste-appareil");
+const ustensilesList = document.querySelector(".liste-ustensiles");
+//filtrage de l'array pour les ingredient
+recipes.forEach((recipes) => {
+	var arrayIngredientstemp = [];
+	for (var i = 0; i < recipes.ingredients.length; i++) {
+		const count = arrayIngredientstemp.push(recipes.ingredients[i].ingredient);
+	}
+	arrayIngredientstemp.forEach((element) => {
+		arrayIngredients.push(element.toLowerCase());
+	});
+});
+const filtereIngredientsdArray = arrayIngredients.filter(
+	(ele, pos) => arrayIngredients.indexOf(ele) == pos
+);
+//generation de la liste d'ingredient
+var filteringredientsListItem = [];
+for (var i = 0; i < filtereIngredientsdArray.length; i++) {
+	var a = 0;
+	filteringredientsListItem[a] = document.createElement("li");
+	filteringredientsListItem[a].textContent = filtereIngredientsdArray[i];
+
+	ingredientsList.appendChild(filteringredientsListItem[a]);
+}
 
 // generation des recette
 const CardDiv = document.querySelector(".card-container");
