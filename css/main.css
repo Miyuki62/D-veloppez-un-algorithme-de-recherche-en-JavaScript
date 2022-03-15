@@ -188,12 +188,13 @@
 
 .card {
 	width: 450px;
-	height: 550px;
+	height: 100%;
 	align-self: center;
 }
 .card-body {
 	display: flex;
 	flex-direction: column;
+	background-color: #e7e7e7;
 }
 .card-header-container {
 	display: flex;
@@ -201,20 +202,18 @@
 	height: 50px;
 }
 .card-title {
-	font-size: 16px;
-	display: flex;
-	flex-wrap: nowrap;
-	width: 50%;
+	font-size: 18px;
+	width: 100%;
 }
 .card-time {
 	display: flex;
 	flex-wrap: nowrap;
+	white-space: nowrap;
 	gap: 5px;
 	align-items: baseline;
-	font-size: 17px;
+	font-size: 18px;
 	font-weight: bold;
-	justify-content: flex-end;
-	width: 40%;
+	width: 30%;
 }
 .card-texte-container {
 	display: flex;
@@ -232,10 +231,22 @@
 }
 .list-item {
 	width: 100%;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 .card-texte-container p,
 .list {
 	font-size: 12px;
+}
+.list-item-container {
+	height: 20px;
+	width: 90%;
+}
+
+.list-item-tittle {
+	display: flex;
+	flex-direction: row;
+	gap: 3px;
+	font-weight: bold;
+}
+.list-item-texte {
+	font-weight: initial;
 }
