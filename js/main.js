@@ -1,5 +1,8 @@
 // importer les recipes
 import { recipes } from "./recipes.js";
+
+//gestion des filtre
+
 // generation des recette
 const CardDiv = document.querySelector(".card-container");
 
@@ -26,7 +29,7 @@ recipes.forEach((recipes) => {
 	//
 	cardHeaderContainer.setAttribute("class", "card-header-container");
 	//
-	cardTitle.setAttribute("class", "card-title");
+	cardTitle.setAttribute("class", "card-title text-truncate");
 	cardTitle.textContent = recipes.name;
 	//
 	cardTimeContainer.setAttribute("class", "card-time");
@@ -39,22 +42,42 @@ recipes.forEach((recipes) => {
 	//
 	cardList.setAttribute("class", "list");
 	//
-	var cardListItem = [];
+	//declaration des array pour générer les ingredient
+	var cardListItemContainer = [];
+	var cardListItemTittle = [];
+	var cardListItemTexte = [];
+	//boucle for pour passer en revue le sous array des ingredient de chaque recette
 	for (var i = 0; i < recipes.ingredients.length; i++) {
 		var a = 0;
-		cardListItem[a] = document.createElement("p");
-		cardListItem[a].setAttribute("class", "list-item");
-		cardListItem[a].textContent = recipes.ingredients[i].ingredient + ":";
-		cardList.appendChild(cardListItem[a]);
+		cardListItemContainer[a] = document.createElement("div");
+		cardListItemContainer[a].setAttribute("class", "list-item-container");
+		//
+		cardListItemTittle[a] = document.createElement("p");
+		cardListItemTittle[a].setAttribute(
+			"class",
+			"list-item list-item-tittle text-truncate"
+		);
+		cardListItemTittle[a].textContent = recipes.ingredients[i].ingredient;
+		//
+		cardListItemTexte[a] = document.createElement("p");
+		cardListItemTexte[a].setAttribute(
+			"class",
+			"list-item list-item-texte text-truncate"
+		);
+		//generation du nom de l'ingredient puis si il y a une quantity on ajoute des : et la quantités
 		if (typeof recipes.ingredients[i].quantity == "undefined") {
 		} else {
-			cardListItem[a].textContent += " " + recipes.ingredients[i].quantity;
+			cardListItemTittle[a].textContent += ":";
+			cardListItemTexte[a].textContent = recipes.ingredients[i].quantity;
 		}
-
+		//si il y a une unité on l'ajoute également
 		if (typeof recipes.ingredients[i].unit == "undefined") {
 		} else {
-			cardListItem[a].textContent += " " + recipes.ingredients[i].unit;
+			cardListItemTexte[a].textContent += " " + recipes.ingredients[i].unit;
 		}
+		cardList.appendChild(cardListItemContainer[a]);
+		cardListItemContainer[a].appendChild(cardListItemTittle[a]);
+		cardListItemTittle[a].appendChild(cardListItemTexte[a]);
 	}
 	//
 	cardDescription.setAttribute("class", "card-description ");
