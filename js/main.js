@@ -132,13 +132,19 @@ const ouvertureListeIngredients = () => {
 	flecheingredients.classList.remove("fa-angle-down");
 	flecheingredients.classList.add("fa-angle-up");
 	Listeingredients.style.display = "block";
-	rechercheIngredients.style.width = "50%";
+	rechercheIngredients.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheIngredients.style.width = "50%";
+	}
 };
 const fermetureListeIngredients = () => {
 	flecheingredients.classList.remove("fa-angle-up");
 	flecheingredients.classList.add("fa-angle-down");
 	Listeingredients.style.display = "none";
-	rechercheIngredients.style.width = "200px";
+	rechercheIngredients.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheIngredients.style.width = "200px";
+	}
 };
 //-----------------------------------------------------------------------------
 //gestion ouverture et fermeture de la liste Appareil
@@ -155,13 +161,19 @@ const ouvertureListeAppareil = () => {
 	flecheappareil.classList.remove("fa-angle-down");
 	flecheappareil.classList.add("fa-angle-up");
 	Listeappareil.style.display = "block";
-	rechercheappareil.style.width = "50%";
+	rechercheappareil.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheappareil.style.width = "50%";
+	}
 };
 const fermetureListeAppareil = () => {
 	flecheappareil.classList.remove("fa-angle-up");
 	flecheappareil.classList.add("fa-angle-down");
 	Listeappareil.style.display = "none";
-	rechercheappareil.style.width = "200px";
+	rechercheappareil.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheappareil.style.width = "200px";
+	}
 };
 //-----------------------------------------------------------------------------
 //gestion ouverture et fermeture de la liste ustensiles
@@ -178,13 +190,19 @@ const ouvertureListeUstensiles = () => {
 	flecheustensiles.classList.remove("fa-angle-down");
 	flecheustensiles.classList.add("fa-angle-up");
 	Listeustensiles.style.display = "block";
-	rechercheustensiles.style.width = "50%";
+	rechercheustensiles.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheustensiles.style.width = "50%";
+	}
 };
 const fermetureListeUstensiles = () => {
 	flecheustensiles.classList.remove("fa-angle-up");
 	flecheustensiles.classList.add("fa-angle-down");
 	Listeustensiles.style.display = "none";
-	rechercheustensiles.style.width = "200px";
+	rechercheustensiles.style.width = "100%";
+	if (screen.width >= 1000) {
+		rechercheustensiles.style.width = "200px";
+	}
 };
 //-----------------------------------------------------------------------------
 // generation des recette
