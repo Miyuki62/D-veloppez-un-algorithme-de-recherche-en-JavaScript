@@ -1,14 +1,11 @@
 @media all and (min-width: 1000px) {
 	/*filtre version desktop*/
 	.filtre-container {
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		flex-direction: row;
 	}
 	.recherche-filtre {
-		max-width: 200px;
-	}
-	.filtre-container {
-		flex-direction: row;
+		width: 200px;
 	}
 	.card-container {
 		justify-content: center;
