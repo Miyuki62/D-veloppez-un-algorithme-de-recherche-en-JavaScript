@@ -262,7 +262,7 @@ const recipes = [
 		description:
 			"Etaler la pate dans les moules à tartelette. Faire cuire la pate 30 minutes. Découper le chocolat en morceau et le faire chauffer, y ajouter la crême liquide, ajouter le beurre et remuer jusqu'à avoir une pâte homogène. Verser la pate sur les tartelettes. Couper les fraises en 2 et les positionner sur ",
 		appliance: "Four",
-		ustensils: ["moule à tartelettes (6)", "casserole"],
+		ustensils: ["moule à tartelettes", "casserole"],
 	},
 	{
 		id: 8,
@@ -395,7 +395,7 @@ const recipes = [
 				unit: "tranches",
 			},
 			{
-				ingredient: "Pommes",
+				ingredient: "Pomme",
 				quantity: 1,
 			},
 			{
@@ -425,7 +425,7 @@ const recipes = [
 				unit: "grammes",
 			},
 			{
-				ingredient: "Pommes",
+				ingredient: "Pomme",
 				quantity: 8,
 			},
 			{
@@ -1714,7 +1714,7 @@ const recipes = [
 				quantity: 2,
 			},
 			{
-				ingredient: "Kiwis",
+				ingredient: "kiwi",
 				quantity: 3,
 			},
 			{

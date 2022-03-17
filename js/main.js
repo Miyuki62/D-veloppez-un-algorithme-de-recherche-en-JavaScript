@@ -2,16 +2,20 @@
 import { recipes } from "./recipes.js";
 //-----------------------------------------------------------------------------
 //global var
+//-----------------------------------------------------------------------------
 var arrayIngredients = [];
 var arrayAppareil = [];
 var arrayUstensiles = [];
+var filteringredientsListItem = [];
 //-----------------------------------------------------------------------------
 //fonction mise en majuscule de la premiere lettre d'un string de texte
+//-----------------------------------------------------------------------------
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 //-----------------------------------------------------------------------------
-//gestion des filtre
+//gestion des Filtre
+//-----------------------------------------------------------------------------
 const ingredientsList = document.querySelector(".liste-ingredients");
 const appareilList = document.querySelector(".liste-appareil");
 const ustensilesList = document.querySelector(".liste-ustensiles");
@@ -27,98 +31,12 @@ const rechercheappareil = document.querySelector(".recherche-appareil");
 const flecheustensiles = document.querySelector(".fleche-ustensiles");
 const Listeustensiles = document.querySelector(".liste-ustensiles");
 const rechercheustensiles = document.querySelector(".recherche-ustensiles");
-//-----------------------------------------------------------------------------
-//filtrage de l'array pour les ingredient
-recipes.forEach((recipes) => {
-	var arrayIngredientsTemp = [];
-	for (var i = 0; i < recipes.ingredients.length; i++) {
-		const count = arrayIngredientsTemp.push(recipes.ingredients[i].ingredient);
-	}
-	arrayIngredientsTemp.forEach((element) => {
-		arrayIngredients.push(element.toLowerCase());
-	});
-});
-//trie par l'ordre alphabétique puis on enlève les doublon
-const SortIngredients = arrayIngredients.sort();
-const filtereIngredientsdArray = SortIngredients.filter(
-	(ele, pos) => arrayIngredients.indexOf(ele) == pos
-);
+//tag
+const tagContainer = document.querySelector(".tag-container");
 
-//generation de la liste d'ingredient avec une lettre majuscule au debut
-var filteringredientsListItem = [];
-for (var i = 0; i < filtereIngredientsdArray.length; i++) {
-	var a = 0;
-	filteringredientsListItem[a] = document.createElement("li");
-	filteringredientsListItem[a].textContent = capitalizeFirstLetter(
-		filtereIngredientsdArray[i]
-	);
-	filteringredientsListItem[a].setAttribute(
-		"class",
-		"liste-element text-truncate"
-	);
-	ingredientsList.appendChild(filteringredientsListItem[a]);
-}
-//-----------------------------------------------------------------------------
-//filtrage de l'array pour les Appareil
-recipes.forEach((recipes) => {
-	var arrayAppareilTemp = [];
-	const count = arrayAppareilTemp.push(recipes.appliance);
-
-	arrayAppareilTemp.forEach((element) => {
-		arrayAppareil.push(element.toLowerCase());
-	});
-});
-//trie par l'ordre alphabétique puis on enlève les doublon
-const SortAppareil = arrayAppareil.sort();
-const filtereAppareildArray = SortAppareil.filter(
-	(ele, pos) => arrayAppareil.indexOf(ele) == pos
-);
-//generation de la liste d'Appareil avec une lettre majuscule au debut
-var filterAppareilListItem = [];
-for (var i = 0; i < filtereAppareildArray.length; i++) {
-	var a = 0;
-	filterAppareilListItem[a] = document.createElement("li");
-	filterAppareilListItem[a].textContent = capitalizeFirstLetter(
-		filtereAppareildArray[i]
-	);
-	filterAppareilListItem[a].setAttribute(
-		"class",
-		"liste-element text-truncate"
-	);
-	appareilList.appendChild(filterAppareilListItem[a]);
-}
-//-----------------------------------------------------------------------------
-//filtrage de l'array pour les ustensiles
-recipes.forEach((recipes) => {
-	var arrayUstensilesTemp = [];
-	for (var i = 0; i < recipes.ustensils.length; i++) {
-		const count = arrayUstensilesTemp.push(recipes.ustensils[i]);
-	}
-	arrayUstensilesTemp.forEach((element) => {
-		arrayUstensiles.push(element.toLowerCase());
-	});
-});
-//trie par l'ordre alphabétique puis on enlève les doublon
-const SortUstensiles = arrayUstensiles.sort();
-const filtereUstensilesArray = SortUstensiles.filter(
-	(ele, pos) => arrayUstensiles.indexOf(ele) == pos
-);
-//generation de la liste d'ustensiles avec une lettre majuscule au debut
-var filterUstensilesListItem = [];
-for (var i = 0; i < filtereUstensilesArray.length; i++) {
-	var a = 0;
-	filterUstensilesListItem[a] = document.createElement("li");
-	filterUstensilesListItem[a].textContent = capitalizeFirstLetter(
-		filtereUstensilesArray[i]
-	);
-	filterUstensilesListItem[a].setAttribute(
-		"class",
-		"liste-element text-truncate"
-	);
-	ustensilesList.appendChild(filterUstensilesListItem[a]);
-}
 //-----------------------------------------------------------------------------
 //gestion ouverture et fermeture de la liste Ingredients
+//-----------------------------------------------------------------------------
 flecheingredients.addEventListener("click", function () {
 	if (flecheingredients.classList.contains("fa-angle-up")) {
 		fermetureListeIngredients();
@@ -148,6 +66,7 @@ const fermetureListeIngredients = () => {
 };
 //-----------------------------------------------------------------------------
 //gestion ouverture et fermeture de la liste Appareil
+//-----------------------------------------------------------------------------
 flecheappareil.addEventListener("click", function () {
 	if (flecheappareil.classList.contains("fa-angle-up")) {
 		fermetureListeAppareil();
@@ -175,8 +94,10 @@ const fermetureListeAppareil = () => {
 		rechercheappareil.style.width = "200px";
 	}
 };
+
 //-----------------------------------------------------------------------------
 //gestion ouverture et fermeture de la liste ustensiles
+//-----------------------------------------------------------------------------
 flecheustensiles.addEventListener("click", function () {
 	if (flecheustensiles.classList.contains("fa-angle-up")) {
 		fermetureListeUstensiles();
@@ -204,8 +125,192 @@ const fermetureListeUstensiles = () => {
 		rechercheustensiles.style.width = "200px";
 	}
 };
+
+//-----------------------------------------------------------------------------
+//gestion des tag
+//-----------------------------------------------------------------------------
+//permet la creation des tag ingredient
+const creationTagIngredients = (event) => {
+	let data = event.target.textContent;
+	tagContainer.innerHTML += `
+    <div class="tag-select tag-select-ingredients tag-select-choix" data-tag="ingredients" data-name=${data}>${data}<i class="fa fa-times-circle close-tag"" alt="close button"></i></div>
+  `;
+	const tagChoisis = document.querySelectorAll(".tag-select-choix");
+	const tagClose = document.querySelectorAll(".close-tag");
+	const parent = document.getElementsByName(data);
+	parent[0].style.display = "none";
+	SuppressionTag(tagClose, tagChoisis);
+};
+//permet la creation des tag ingredient
+const creationTagAppareil = (event) => {
+	let data = event.target.textContent;
+	tagContainer.innerHTML += `
+    <div class="tag-select tag-select-appareil tag-select-choix" data-tag="appareil" data-name=${data}>${data}<i class="fa fa-times-circle close-tag" alt="close button"></i></div>
+  `;
+	const tagChoisis = document.querySelectorAll(".tag-select-choix");
+	const tagClose = document.querySelectorAll(".close-tag");
+	const parent = document.getElementsByName(data);
+	parent[0].style.display = "none";
+	SuppressionTag(tagClose, tagChoisis);
+};
+//permet la creation des tag ingredient
+const creationTagUstensiles = (event) => {
+	let data = event.target.textContent;
+	tagContainer.innerHTML += `
+    <div class="tag-select tag-select-ustensiles tag-select-choix" data-tag="ustensiles" data-name="${data}">${data}<i class="fa fa-times-circle close-tag" alt="close button"></i></div>
+  `;
+	const tagChoisis = document.querySelectorAll(".tag-select-choix");
+	const tagClose = document.querySelectorAll(".close-tag");
+	const parent = document.getElementsByName(data);
+	parent[0].style.display = "none";
+	SuppressionTag(tagClose, tagChoisis);
+};
+
+//Suppression des Tag
+const SuppressionTag = (close, tag) => {
+	var arrayElementSelectString = [];
+	close.forEach((elt, index) => {
+		elt.addEventListener("click", () => {
+			const indexElement = arrayElementSelectString.indexOf(
+				tag[index].textContent
+			);
+			if (tag[index].dataset.tag.includes("ingredients")) {
+				tag[index].remove();
+				let tagcreator = document.getElementsByName(tag[index].dataset.name);
+				tagcreator[0].style.display = "block";
+			}
+			if (tag[index].dataset.tag.includes("appareil")) {
+				tag[index].remove();
+				let tagcreator = document.getElementsByName(tag[index].dataset.name);
+				tagcreator[0].style.display = "block";
+			}
+			if (tag[index].dataset.tag.includes("ustensiles")) {
+				tag[index].remove();
+				let tagcreator = document.getElementsByName(tag[index].dataset.name);
+				tagcreator[0].style.display = "block";
+			}
+		});
+	});
+};
+//-----------------------------------------------------------------------------
+//filtrage de l'array pour les ingredient
+//-----------------------------------------------------------------------------
+recipes.forEach((recipes) => {
+	var arrayIngredientsTemp = [];
+	for (var i = 0; i < recipes.ingredients.length; i++) {
+		const count = arrayIngredientsTemp.push(recipes.ingredients[i].ingredient);
+	}
+	arrayIngredientsTemp.forEach((element) => {
+		arrayIngredients.push(element.toLowerCase());
+	});
+});
+//trie par l'ordre alphabétique puis on enlève les doublon
+const SortIngredients = arrayIngredients.sort();
+const filtereIngredientsdArray = SortIngredients.filter(
+	(ele, pos) => arrayIngredients.indexOf(ele) == pos
+);
+
+//generation de la liste d'ingredient avec une lettre majuscule au debut
+
+for (var i = 0; i < filtereIngredientsdArray.length; i++) {
+	var a = 0;
+	filteringredientsListItem[a] = document.createElement("li");
+	filteringredientsListItem[a].textContent = capitalizeFirstLetter(
+		filtereIngredientsdArray[i]
+	);
+	filteringredientsListItem[a].setAttribute(
+		"class",
+		"liste-element text-truncate"
+	);
+	filteringredientsListItem[a].setAttribute(
+		"name",
+		capitalizeFirstLetter(filtereIngredientsdArray[i])
+	);
+	filteringredientsListItem[a].setAttribute("data-categorie", "ingredients");
+	filteringredientsListItem[a].addEventListener(
+		"click",
+		creationTagIngredients
+	);
+	ingredientsList.appendChild(filteringredientsListItem[a]);
+}
+//-----------------------------------------------------------------------------
+//filtrage de l'array pour les Appareil
+//-----------------------------------------------------------------------------
+recipes.forEach((recipes) => {
+	var arrayAppareilTemp = [];
+	const count = arrayAppareilTemp.push(recipes.appliance);
+
+	arrayAppareilTemp.forEach((element) => {
+		arrayAppareil.push(element.toLowerCase());
+	});
+});
+//trie par l'ordre alphabétique puis on enlève les doublon
+const SortAppareil = arrayAppareil.sort();
+const filtereAppareildArray = SortAppareil.filter(
+	(ele, pos) => arrayAppareil.indexOf(ele) == pos
+);
+//generation de la liste d'Appareil avec une lettre majuscule au debut
+var filterAppareilListItem = [];
+for (var i = 0; i < filtereAppareildArray.length; i++) {
+	var a = 0;
+	filterAppareilListItem[a] = document.createElement("li");
+	filterAppareilListItem[a].textContent = capitalizeFirstLetter(
+		filtereAppareildArray[i]
+	);
+	filterAppareilListItem[a].setAttribute(
+		"class",
+		"liste-element text-truncate"
+	);
+	filterAppareilListItem[a].setAttribute(
+		"name",
+		capitalizeFirstLetter(filtereAppareildArray[i])
+	);
+	filterAppareilListItem[a].setAttribute("data-categorie", "appareil");
+	filterAppareilListItem[a].addEventListener("click", creationTagAppareil);
+	appareilList.appendChild(filterAppareilListItem[a]);
+}
+//-----------------------------------------------------------------------------
+//filtrage de l'array pour les ustensiles
+//-----------------------------------------------------------------------------
+recipes.forEach((recipes) => {
+	var arrayUstensilesTemp = [];
+	for (var i = 0; i < recipes.ustensils.length; i++) {
+		const count = arrayUstensilesTemp.push(recipes.ustensils[i]);
+	}
+	arrayUstensilesTemp.forEach((element) => {
+		arrayUstensiles.push(element.toLowerCase());
+	});
+});
+//trie par l'ordre alphabétique puis on enlève les doublon
+const SortUstensiles = arrayUstensiles.sort();
+const filtereUstensilesArray = SortUstensiles.filter(
+	(ele, pos) => arrayUstensiles.indexOf(ele) == pos
+);
+//generation de la liste d'ustensiles avec une lettre majuscule au debut
+var filterUstensilesListItem = [];
+for (var i = 0; i < filtereUstensilesArray.length; i++) {
+	var a = 0;
+	filterUstensilesListItem[a] = document.createElement("li");
+	filterUstensilesListItem[a].textContent = capitalizeFirstLetter(
+		filtereUstensilesArray[i]
+	);
+	filterUstensilesListItem[a].setAttribute(
+		"class",
+		"liste-element text-truncate"
+	);
+	filterUstensilesListItem[a].setAttribute(
+		"name",
+		capitalizeFirstLetter(filtereUstensilesArray[i])
+	);
+	filterUstensilesListItem[a].setAttribute("data-categorie", "ustensiles");
+	filterUstensilesListItem[a].addEventListener("click", creationTagUstensiles);
+
+	ustensilesList.appendChild(filterUstensilesListItem[a]);
+}
+
 //-----------------------------------------------------------------------------
 // generation des recette
+//-----------------------------------------------------------------------------
 const CardDiv = document.querySelector(".card-container");
 
 recipes.forEach((recipes) => {
