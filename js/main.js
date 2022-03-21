@@ -141,7 +141,7 @@ const creationTagIngredients = (event) => {
 	parent[0].style.display = "none";
 	SuppressionTag(tagClose, tagChoisis);
 };
-//permet la creation des tag ingredient
+//permet la creation des tag appareil
 const creationTagAppareil = (event) => {
 	let data = event.target.textContent;
 	tagContainer.innerHTML += `
@@ -153,7 +153,7 @@ const creationTagAppareil = (event) => {
 	parent[0].style.display = "none";
 	SuppressionTag(tagClose, tagChoisis);
 };
-//permet la creation des tag ingredient
+//permet la creation des tag ustensiles
 const creationTagUstensiles = (event) => {
 	let data = event.target.textContent;
 	tagContainer.innerHTML += `
