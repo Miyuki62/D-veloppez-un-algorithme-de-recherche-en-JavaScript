@@ -311,7 +311,7 @@ for (var i = 0; i < filtereUstensilesArray.length; i++) {
 //-----------------------------------------------------------------------------
 // generation des recette
 //-----------------------------------------------------------------------------
-function generateRecipe(recipes) {
+function generateRecipe(data) {
 	let cardMaster = document.createElement("div");
 	let imgCard = document.createElement("img");
 	let cardBody = document.createElement("div");
@@ -335,13 +335,13 @@ function generateRecipe(recipes) {
 	cardHeaderContainer.setAttribute("class", "card-header-container");
 	//
 	cardTitle.setAttribute("class", "card-title text-truncate");
-	cardTitle.textContent = recipes.name;
+	cardTitle.textContent = data.name;
 	//
 	cardTimeContainer.setAttribute("class", "card-time");
 	//
 	cardClockIcon.setAttribute("class", "fa fa-clock-o");
 	//
-	cardTime.textContent = recipes.time + " min";
+	cardTime.textContent = data.time + " min";
 	//
 	cardTexteContainer.setAttribute("class", "card-texte-container");
 	//
@@ -352,7 +352,7 @@ function generateRecipe(recipes) {
 	var cardListItemTittle = [];
 	var cardListItemTexte = [];
 	//boucle for pour passer en revue le sous array des ingredient de chaque recette
-	for (var i = 0; i < recipes.ingredients.length; i++) {
+	for (var i = 0; i < data.ingredients.length; i++) {
 		var a = 0;
 		cardListItemContainer[a] = document.createElement("div");
 		cardListItemContainer[a].setAttribute("class", "list-item-container");
@@ -362,7 +362,7 @@ function generateRecipe(recipes) {
 			"class",
 			"list-item list-item-tittle text-truncate"
 		);
-		cardListItemTittle[a].textContent = recipes.ingredients[i].ingredient;
+		cardListItemTittle[a].textContent = data.ingredients[i].ingredient;
 		//
 		cardListItemTexte[a] = document.createElement("p");
 		cardListItemTexte[a].setAttribute(
@@ -370,15 +370,15 @@ function generateRecipe(recipes) {
 			"list-item list-item-texte text-truncate"
 		);
 		//generation du nom de l'ingredient puis si il y a une quantity on ajoute des : et la quantités
-		if (typeof recipes.ingredients[i].quantity == "undefined") {
+		if (typeof data.ingredients[i].quantity == "undefined") {
 		} else {
 			cardListItemTittle[a].textContent += ":";
-			cardListItemTexte[a].textContent = recipes.ingredients[i].quantity;
+			cardListItemTexte[a].textContent = data.ingredients[i].quantity;
 		}
 		//si il y a une unité on l'ajoute également
-		if (typeof recipes.ingredients[i].unit == "undefined") {
+		if (typeof data.ingredients[i].unit == "undefined") {
 		} else {
-			cardListItemTexte[a].textContent += " " + recipes.ingredients[i].unit;
+			cardListItemTexte[a].textContent += " " + data.ingredients[i].unit;
 		}
 		cardList.appendChild(cardListItemContainer[a]);
 		cardListItemContainer[a].appendChild(cardListItemTittle[a]);
@@ -386,7 +386,7 @@ function generateRecipe(recipes) {
 	}
 	//
 	cardDescription.setAttribute("class", "card-description ");
-	cardDescription.textContent = recipes.description;
+	cardDescription.textContent = data.description;
 	//
 	cardMaster.appendChild(imgCard);
 	cardMaster.appendChild(cardBody);
@@ -404,12 +404,41 @@ function generateRecipe(recipes) {
 
 	return cardMaster;
 }
+//-----------------------------------------------------------------------------
+// recherche principal
+//-----------------------------------------------------------------------------
 const divcard = document.querySelector(".card-Container");
 recipes.forEach((recipes) => {
 	const recette = generateRecipe(recipes);
 	divcard.appendChild(recette);
 });
+function selectElement(selector) {
+	return document.querySelector(selector);
+}
+function clearResult() {
+	selectElement(".card-Container").innerHTML = "";
+}
 
-//-----------------------------------------------------------------------------
-// Algo de recherche Principal
-//-----------------------------------------------------------------------------
+function getResults() {
+	const search = selectElement(".recherche-principal").value;
+
+	clearResult();
+	for (let i = 0; i < recipes.length; i++) {
+		if (
+			recipes[i].name
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase()) ||
+			recipes[i].description
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase()) ||
+			recipes[i].ingredients[i]
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase())
+		) {
+			const divSearchCard = selectElement(".card-Container");
+			const recette2 = generateRecipe(recipes[i]);
+			divSearchCard.appendChild(recette2);
+		}
+	}
+}
+selectElement(".recherche-principal").addEventListener("keyup", getResults);
