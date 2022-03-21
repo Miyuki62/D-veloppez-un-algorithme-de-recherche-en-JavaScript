@@ -311,9 +311,7 @@ for (var i = 0; i < filtereUstensilesArray.length; i++) {
 //-----------------------------------------------------------------------------
 // generation des recette
 //-----------------------------------------------------------------------------
-const CardDiv = document.querySelector(".card-container");
-
-recipes.forEach((recipes) => {
+function generateRecipe(recipes) {
 	let cardMaster = document.createElement("div");
 	let imgCard = document.createElement("img");
 	let cardBody = document.createElement("div");
@@ -390,7 +388,6 @@ recipes.forEach((recipes) => {
 	cardDescription.setAttribute("class", "card-description ");
 	cardDescription.textContent = recipes.description;
 	//
-	CardDiv.appendChild(cardMaster);
 	cardMaster.appendChild(imgCard);
 	cardMaster.appendChild(cardBody);
 	cardBody.appendChild(cardHeaderContainer);
@@ -404,4 +401,15 @@ recipes.forEach((recipes) => {
 	//
 	cardTexteContainer.appendChild(cardList);
 	cardTexteContainer.appendChild(cardDescription);
+
+	return cardMaster;
+}
+const divcard = document.querySelector(".card-Container");
+recipes.forEach((recipes) => {
+	const recette = generateRecipe(recipes);
+	divcard.appendChild(recette);
 });
+
+//-----------------------------------------------------------------------------
+// Algo de recherche Principal
+//-----------------------------------------------------------------------------

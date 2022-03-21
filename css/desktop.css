@@ -7,7 +7,7 @@
 	.recherche-filtre {
 		width: 200px;
 	}
-	.card-container {
+	.card-Container {
 		justify-content: center;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -15,7 +15,7 @@
 }
 @media all and (min-width: 1550px) {
 	/*filtre version desktop*/
-	.card-container {
+	.card-Container {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 30px;
