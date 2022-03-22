@@ -211,27 +211,26 @@ const filtereIngredientsdArray = SortIngredients.filter(
 );
 
 //generation de la liste d'ingredient avec une lettre majuscule au debut
-
-for (var i = 0; i < filtereIngredientsdArray.length; i++) {
-	var a = 0;
-	filteringredientsListItem[a] = document.createElement("li");
-	filteringredientsListItem[a].textContent = capitalizeFirstLetter(
-		filtereIngredientsdArray[i]
+function generateListeIngredients(filtereIngredientsdArray) {
+	let filteringredientsListItem = document.createElement("li");
+	//
+	filteringredientsListItem.textContent = capitalizeFirstLetter(
+		filtereIngredientsdArray
 	);
-	filteringredientsListItem[a].setAttribute(
+	//
+	filteringredientsListItem.setAttribute(
 		"class",
 		"liste-element text-truncate"
 	);
-	filteringredientsListItem[a].setAttribute(
+	filteringredientsListItem.setAttribute(
 		"name",
-		capitalizeFirstLetter(filtereIngredientsdArray[i])
+		capitalizeFirstLetter(filtereIngredientsdArray)
 	);
-	filteringredientsListItem[a].setAttribute("data-categorie", "ingredients");
-	filteringredientsListItem[a].addEventListener(
-		"click",
-		creationTagIngredients
-	);
-	ingredientsList.appendChild(filteringredientsListItem[a]);
+	filteringredientsListItem.setAttribute("data-categorie", "ingredients");
+	//
+	filteringredientsListItem.addEventListener("click", creationTagIngredients);
+	//
+	return filteringredientsListItem;
 }
 //-----------------------------------------------------------------------------
 //filtrage de l'array pour les Appareil
@@ -251,23 +250,26 @@ const filtereAppareildArray = SortAppareil.filter(
 );
 //generation de la liste d'Appareil avec une lettre majuscule au debut
 var filterAppareilListItem = [];
-for (var i = 0; i < filtereAppareildArray.length; i++) {
-	var a = 0;
-	filterAppareilListItem[a] = document.createElement("li");
-	filterAppareilListItem[a].textContent = capitalizeFirstLetter(
-		filtereAppareildArray[i]
+function generateListAppareil(filtereAppareildArray) {
+	let filterAppareilListItem = document.createElement("li");
+	//
+	filterAppareilListItem.textContent = capitalizeFirstLetter(
+		filtereAppareildArray
 	);
+	//
 	filterAppareilListItem[a].setAttribute(
 		"class",
 		"liste-element text-truncate"
 	);
 	filterAppareilListItem[a].setAttribute(
 		"name",
-		capitalizeFirstLetter(filtereAppareildArray[i])
+		capitalizeFirstLetter(filtereAppareildArray)
 	);
-	filterAppareilListItem[a].setAttribute("data-categorie", "appareil");
-	filterAppareilListItem[a].addEventListener("click", creationTagAppareil);
-	appareilList.appendChild(filterAppareilListItem[a]);
+	filterAppareilListItem.setAttribute("data-categorie", "appareil");
+	//
+	filterAppareilListItem.addEventListener("click", creationTagAppareil);
+	//
+	return filterAppareilListItem;
 }
 //-----------------------------------------------------------------------------
 //filtrage de l'array pour les ustensiles
@@ -288,24 +290,23 @@ const filtereUstensilesArray = SortUstensiles.filter(
 );
 //generation de la liste d'ustensiles avec une lettre majuscule au debut
 var filterUstensilesListItem = [];
-for (var i = 0; i < filtereUstensilesArray.length; i++) {
-	var a = 0;
-	filterUstensilesListItem[a] = document.createElement("li");
-	filterUstensilesListItem[a].textContent = capitalizeFirstLetter(
-		filtereUstensilesArray[i]
+function generateListeUstensiles(filtereUstensilesArray) {
+	let filterUstensilesListItem = document.createElement("li");
+	//
+	filterUstensilesListItem.textContent = capitalizeFirstLetter(
+		filtereUstensilesArray
 	);
-	filterUstensilesListItem[a].setAttribute(
-		"class",
-		"liste-element text-truncate"
-	);
-	filterUstensilesListItem[a].setAttribute(
+	//
+	filterUstensilesListItem.setAttribute("class", "liste-element text-truncate");
+	filterUstensilesListItem.setAttribute(
 		"name",
-		capitalizeFirstLetter(filtereUstensilesArray[i])
+		capitalizeFirstLetter(filtereUstensilesArray)
 	);
-	filterUstensilesListItem[a].setAttribute("data-categorie", "ustensiles");
-	filterUstensilesListItem[a].addEventListener("click", creationTagUstensiles);
-
-	ustensilesList.appendChild(filterUstensilesListItem[a]);
+	filterUstensilesListItem.setAttribute("data-categorie", "ustensiles");
+	//
+	filterUstensilesListItem.addEventListener("click", creationTagUstensiles);
+	//
+	return filterUstensilesListItem;
 }
 
 //-----------------------------------------------------------------------------
@@ -405,13 +406,38 @@ function generateRecipe(data) {
 	return cardMaster;
 }
 //-----------------------------------------------------------------------------
-// recherche principal
+// Initialisation fonction
 //-----------------------------------------------------------------------------
-const divcard = document.querySelector(".card-Container");
+var divcard = document.querySelector(".card-Container");
 recipes.forEach((recipes) => {
 	const recette = generateRecipe(recipes);
 	divcard.appendChild(recette);
 });
+//ingredients
+filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
+	//
+	const search = generateListeIngredients(filtereIngredientsdArray);
+	//
+	ingredientsList.appendChild(search);
+});
+//appareil
+filtereAppareildArray.forEach((filtereAppareildArray) => {
+	//
+	const search = generateListeIngredients(filtereAppareildArray);
+	//
+	appareilList.appendChild(search);
+});
+//ustensiles
+filtereUstensilesArray.forEach((filtereUstensilesArray) => {
+	//
+	const search = generateListeIngredients(filtereUstensilesArray);
+	//
+	ustensilesList.appendChild(search);
+});
+//-----------------------------------------------------------------------------
+// recherche principal
+//-----------------------------------------------------------------------------
+
 function selectElement(selector) {
 	return document.querySelector(selector);
 }
@@ -424,21 +450,97 @@ function getResults() {
 
 	clearResult();
 	for (let i = 0; i < recipes.length; i++) {
-		if (
-			recipes[i].name
-				.toLocaleLowerCase()
-				.includes(search.toLocaleLowerCase()) ||
-			recipes[i].description
-				.toLocaleLowerCase()
-				.includes(search.toLocaleLowerCase()) ||
-			recipes[i].ingredients[i]
-				.toLocaleLowerCase()
-				.includes(search.toLocaleLowerCase())
-		) {
-			const divSearchCard = selectElement(".card-Container");
-			const recette2 = generateRecipe(recipes[i]);
-			divSearchCard.appendChild(recette2);
+		fermetureListeIngredients();
+		fermetureListeAppareil();
+		fermetureListeUstensiles();
+		if (search.length >= 3) {
+			for (var a = 0; a < recipes[i].ingredients.length; a++) {
+				if (
+					recipes[i].ingredients[a].ingredient
+						.toLocaleLowerCase()
+						.includes(search.toLocaleLowerCase()) ||
+					recipes[i].name
+						.toLocaleLowerCase()
+						.includes(search.toLocaleLowerCase()) ||
+					recipes[i].description
+						.toLocaleLowerCase()
+						.includes(search.toLocaleLowerCase())
+				) {
+					const recette2 = generateRecipe(recipes[i]);
+					divcard.appendChild(recette2);
+				}
+			}
 		}
 	}
 }
 selectElement(".recherche-principal").addEventListener("keyup", getResults);
+
+//-----------------------------------------------------------------------------
+// recherche secondaire ingredients
+//-----------------------------------------------------------------------------
+function getIngredientsResults() {
+	const search = selectElement(".ingredients-input").value;
+	ingredientsList.innerHTML = "";
+	filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
+		if (
+			filtereIngredientsdArray
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase())
+		) {
+			ouvertureListeIngredients();
+			fermetureListeAppareil();
+			fermetureListeUstensiles();
+			const searchList = generateListeIngredients(filtereIngredientsdArray);
+			ingredientsList.appendChild(searchList);
+		}
+	});
+}
+selectElement(".ingredients-input").addEventListener(
+	"keyup",
+	getIngredientsResults
+);
+//-----------------------------------------------------------------------------
+// recherche secondaire Appareil
+//-----------------------------------------------------------------------------
+function getAppareilResults() {
+	const search = selectElement(".appareil-input").value;
+	appareilList.innerHTML = "";
+	filtereAppareildArray.forEach((filtereAppareildArray) => {
+		if (
+			filtereAppareildArray
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase())
+		) {
+			ouvertureListeAppareil();
+			fermetureListeIngredients();
+			fermetureListeUstensiles();
+			const searchList = generateListeIngredients(filtereAppareildArray);
+			appareilList.appendChild(searchList);
+		}
+	});
+}
+selectElement(".appareil-input").addEventListener("keyup", getAppareilResults);
+//-----------------------------------------------------------------------------
+// recherche secondaire ustensiles
+//-----------------------------------------------------------------------------
+function getUstensilesResults() {
+	const search = selectElement(".ustensiles-input").value;
+	ustensilesList.innerHTML = "";
+	filtereUstensilesArray.forEach((filtereUstensilesArray) => {
+		if (
+			filtereUstensilesArray
+				.toLocaleLowerCase()
+				.includes(search.toLocaleLowerCase())
+		) {
+			ouvertureListeUstensiles();
+			fermetureListeIngredients();
+			fermetureListeAppareil();
+			const searchList = generateListeIngredients(filtereUstensilesArray);
+			ustensilesList.appendChild(searchList);
+		}
+	});
+}
+selectElement(".ustensiles-input").addEventListener(
+	"keyup",
+	getUstensilesResults
+);
