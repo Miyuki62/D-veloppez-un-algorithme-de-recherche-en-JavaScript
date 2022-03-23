@@ -478,7 +478,6 @@ function getResults() {
 		(ele, pos) => sortRecette.indexOf(ele) == pos
 	);
 
-	console.log(recettefilterArray);
 	recettefilterArray.forEach((recettefilterArray) => {
 		const searchList = generateRecipe(recettefilterArray);
 		divcard.appendChild(searchList);
