@@ -437,6 +437,8 @@ filtereUstensilesArray.forEach((filtereUstensilesArray) => {
 //-----------------------------------------------------------------------------
 // recherche principal
 //-----------------------------------------------------------------------------
+var sortRecette = [];
+var recettefilterArray = [];
 
 function selectElement(selector) {
 	return document.querySelector(selector);
@@ -449,6 +451,7 @@ function getResults() {
 	const search = selectElement(".recherche-principal").value;
 
 	clearResult();
+	sortRecette = [];
 	for (let i = 0; i < recipes.length; i++) {
 		fermetureListeIngredients();
 		fermetureListeAppareil();
@@ -466,12 +469,20 @@ function getResults() {
 						.toLocaleLowerCase()
 						.includes(search.toLocaleLowerCase())
 				) {
-					const recette2 = generateRecipe(recipes[i]);
-					divcard.appendChild(recette2);
+					sortRecette.push(recipes[i]);
 				}
 			}
 		}
 	}
+	recettefilterArray = sortRecette.filter(
+		(ele, pos) => sortRecette.indexOf(ele) == pos
+	);
+
+	console.log(recettefilterArray);
+	recettefilterArray.forEach((recettefilterArray) => {
+		const searchList = generateRecipe(recettefilterArray);
+		divcard.appendChild(searchList);
+	});
 }
 selectElement(".recherche-principal").addEventListener("keyup", getResults);
 
