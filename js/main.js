@@ -473,15 +473,27 @@ function getResults() {
 				}
 			}
 		}
+		recettefilterArray = sortRecette.filter(
+			(ele, pos) => sortRecette.indexOf(ele) == pos
+		);
 	}
-	recettefilterArray = sortRecette.filter(
-		(ele, pos) => sortRecette.indexOf(ele) == pos
-	);
 
-	recettefilterArray.forEach((recettefilterArray) => {
-		const searchList = generateRecipe(recettefilterArray);
-		divcard.appendChild(searchList);
-	});
+	if (sortRecette == "" && search.length < 1) {
+		clearResult();
+		recipes.forEach((recipes) => {
+			const recette = generateRecipe(recipes);
+			divcard.appendChild(recette);
+		});
+	} else {
+		if (sortRecette == "" && search.length >= 3) {
+			divcard.innerHTML = `<h2>Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc</h2>`;
+		} else {
+			recettefilterArray.forEach((recettefilterArray) => {
+				const searchList = generateRecipe(recettefilterArray);
+				divcard.appendChild(searchList);
+			});
+		}
+	}
 }
 selectElement(".recherche-principal").addEventListener("keyup", getResults);
 
