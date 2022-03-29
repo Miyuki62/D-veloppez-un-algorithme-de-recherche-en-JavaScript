@@ -173,7 +173,11 @@ const creationTagAppareil = (event) => {
 	const tagClose = document.querySelectorAll(".close-tag");
 	const parent = document.getElementsByName(data);
 	const count = tagAppareil.push(data);
-
+	if (data === "Casserole" || data === "Saladier") {
+		parent[0].style.display = "none";
+	} else {
+		parent[0].style.display = "none";
+	}
 	parent[0].style.display = "none";
 
 	SuppressionTag(tagClose, tagChoisis);
@@ -188,11 +192,10 @@ const creationTagUstensiles = (event) => {
 	const tagClose = document.querySelectorAll(".close-tag");
 	const parent = document.getElementsByName(data);
 	const count = tagUstensiles.push(data);
-	console.log(parent);
-	try {
-		parent[0].style.display = "none";
-	} catch (error) {
+	if (data === "Casserole" || data === "Saladier") {
 		parent[1].style.display = "none";
+	} else {
+		parent[0].style.display = "none";
 	}
 
 	SuppressionTag(tagClose, tagChoisis);
@@ -215,10 +218,7 @@ const SuppressionTag = (close, tag) => {
 					tagIngredients.splice(positionTagInArray, 1);
 				}
 				let tagcreator = document.getElementsByName(tag[index].textContent);
-				try {
-					tagcreator[1].style.display = "block";
-					tagcreator[0].style.display = "block";
-				} catch (error) {}
+				tagcreator[0].style.display = "block";
 			}
 			if (tag[index].dataset.tag.includes("appareil")) {
 				tag[index].remove();
@@ -227,10 +227,14 @@ const SuppressionTag = (close, tag) => {
 					tagAppareil.splice(positionTagInArray, 1);
 				}
 				let tagcreator = document.getElementsByName(tag[index].textContent);
-				try {
-					tagcreator[1].style.display = "block";
+				if (
+					tag[index].textContent === "Casserole" ||
+					tag[index].textContent === "Saladier"
+				) {
 					tagcreator[0].style.display = "block";
-				} catch (error) {}
+				} else {
+					tagcreator[0].style.display = "block";
+				}
 			}
 			if (tag[index].dataset.tag.includes("ustensiles")) {
 				tag[index].remove();
@@ -241,10 +245,14 @@ const SuppressionTag = (close, tag) => {
 					tagUstensiles.splice(positionTagInArray, 1);
 				}
 				let tagcreator = document.getElementsByName(tag[index].textContent);
-				try {
+				if (
+					tag[index].textContent === "Casserole" ||
+					tag[index].textContent === "Saladier"
+				) {
 					tagcreator[1].style.display = "block";
+				} else {
 					tagcreator[0].style.display = "block";
-				} catch (error) {}
+				}
 			}
 		});
 	});
