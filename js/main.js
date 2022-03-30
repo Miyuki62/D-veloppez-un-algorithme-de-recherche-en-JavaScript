@@ -161,7 +161,6 @@ const creationTagIngredients = (event) => {
 	} catch (error) {
 		parent[0].style.display = "none";
 	}
-	getResults();
 	SuppressionTag(tagClose, tagChoisis);
 };
 //permet la creation des tag appareil
@@ -187,7 +186,6 @@ const creationTagAppareil = (event) => {
 			parent[1].style.display = "none";
 		}
 	}
-	getResults();
 	SuppressionTag(tagClose, tagChoisis);
 };
 //permet la creation des tag ustensiles
@@ -213,7 +211,6 @@ const creationTagUstensiles = (event) => {
 			parent[1].style.display = "none";
 		}
 	}
-	getResults();
 	SuppressionTag(tagClose, tagChoisis);
 };
 
@@ -320,6 +317,7 @@ function generateListeIngredients(data) {
 	filteringredientsListItem.setAttribute("data-categorie", "ingredients");
 	//
 	filteringredientsListItem.addEventListener("click", creationTagIngredients);
+	filteringredientsListItem.addEventListener("click", getResults);
 	//
 	return filteringredientsListItem;
 }
@@ -379,6 +377,7 @@ function generateListAppareil(data) {
 	filterAppareilListItem.setAttribute("data-categorie", "appareil");
 	//
 	filterAppareilListItem.addEventListener("click", creationTagAppareil);
+	filterAppareilListItem.addEventListener("click", getResults);
 	//
 	return filterAppareilListItem;
 }
@@ -434,6 +433,7 @@ function generateListeUstensiles(data) {
 	filterUstensilesListItem.setAttribute("data-categorie", "ustensiles");
 	//
 	filterUstensilesListItem.addEventListener("click", creationTagUstensiles);
+	filterUstensilesListItem.addEventListener("click", getResults);
 	//
 	return filterUstensilesListItem;
 }
@@ -625,104 +625,119 @@ function getResults() {
 	checkUstensiles();
 	clearResult();
 	sortRecette = [];
-	for (let i = 0; i < recipes.length; i++) {
-		if (search.length >= 3) {
-			fermetureListeIngredients();
-			fermetureListeAppareil();
-			fermetureListeUstensiles();
-			for (var a = 0; a < recipes[i].ingredients.length; a++) {
-				if (
-					recipes[i].ingredients[a].ingredient
-						.toLocaleLowerCase()
-						.includes(search.toLocaleLowerCase()) ||
-					recipes[i].name
-						.toLocaleLowerCase()
-						.includes(search.toLocaleLowerCase()) ||
-					recipes[i].description
-						.toLocaleLowerCase()
-						.includes(search.toLocaleLowerCase())
-				) {
-					if (tagIngredients.length >= 1) {
-						//ingredient
-						sortRecette.push(recipes[i]);
-						const data = rechercheTagIngredients(sortRecette);
-						generateSearchListfiltre(data);
-						generateRecipeTag(data);
-					} else if (tagAppareil.length >= 1) {
-						//Appareil
-						sortRecette.push(recipes[i]);
-						const data = rechercheTagAppareil(sortRecette);
-						generateSearchListfiltre(data);
-						generateRecipeTag(data);
-					} else if (tagUstensiles.length >= 1) {
-						//ustensiles
-						sortRecette.push(recipes[i]);
-						const data = rechercheTagUstensiles(sortRecette);
-						generateSearchListfiltre(data);
-						generateRecipeTag(data);
-					} else if (
-						tagIngredients.length == 0 &&
-						tagAppareil.length == 0 &&
-						tagUstensiles.length == 0
-					) {
-						console.log("sortie defaut");
-						sortRecette.push(recipes[i]);
-					}
-				}
-			}
-		}
-
-		recettefilterArray = sortRecette.filter(
-			(ele, pos) => sortRecette.indexOf(ele) == pos
-		);
-	}
-
-	if (sortRecette == "" && search.length < 2) {
+	if (
+		search.length === 0 &&
+		(tagIngredients.length >= 1 ||
+			tagAppareil.length >= 1 ||
+			tagUstensiles.length >= 1)
+	) {
 		recipes.forEach((recipes) => {
 			const recette = generateRecipe(recipes);
 			divcard.appendChild(recette);
 		});
-		if (
-			tagIngredients.length == 0 &&
-			tagAppareil.length == 0 &&
-			tagUstensiles.length == 0
-		) {
-			clearFilterList();
-			filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
-				//
-				const search = generateListeIngredients(filtereIngredientsdArray);
-				//
-				ingredientsList.appendChild(search);
-			});
-			//appareil
-			filtereAppareildArray.forEach((filtereAppareildArray) => {
-				//
-				const search = generateListAppareil(filtereAppareildArray);
-				//
-				appareilList.appendChild(search);
-			});
-			//ustensiles
-			filtereUstensilesArray.forEach((filtereUstensilesArray) => {
-				//
-				const search = generateListeUstensiles(filtereUstensilesArray);
-				//
-				ustensilesList.appendChild(search);
-			});
+		for (let i = 0; i < recipes.length; i++) {
+			sortRecette.push(recipes[i]);
 		}
+		rechercheAllTag(sortRecette);
 	} else {
-		if (sortRecette == "" && search.length >= 3) {
-			divcard.innerHTML = `<h2>Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc</h2>`;
-		} else {
+		for (let i = 0; i < recipes.length; i++) {
+			if (search.length >= 3) {
+				fermetureListeIngredients();
+				fermetureListeAppareil();
+				fermetureListeUstensiles();
+				for (var a = 0; a < recipes[i].ingredients.length; a++) {
+					if (
+						recipes[i].ingredients[a].ingredient
+							.toLocaleLowerCase()
+							.includes(search.toLocaleLowerCase()) ||
+						recipes[i].name
+							.toLocaleLowerCase()
+							.includes(search.toLocaleLowerCase()) ||
+						recipes[i].description
+							.toLocaleLowerCase()
+							.includes(search.toLocaleLowerCase())
+					) {
+						if (tagIngredients.length >= 1) {
+							//ingredient
+							sortRecette.push(recipes[i]);
+							const data = rechercheTagIngredients(sortRecette);
+							generateSearchListfiltre(data);
+							generateRecipeTag(data);
+						} else if (tagAppareil.length >= 1) {
+							//Appareil
+							sortRecette.push(recipes[i]);
+							const data = rechercheTagAppareil(sortRecette);
+							generateSearchListfiltre(data);
+							generateRecipeTag(data);
+						} else if (tagUstensiles.length >= 1) {
+							//ustensiles
+							sortRecette.push(recipes[i]);
+							const data = rechercheTagUstensiles(sortRecette);
+							generateSearchListfiltre(data);
+							generateRecipeTag(data);
+						} else if (
+							tagIngredients.length == 0 &&
+							tagAppareil.length == 0 &&
+							tagUstensiles.length == 0
+						) {
+							sortRecette.push(recipes[i]);
+						}
+					}
+				}
+			}
+
+			recettefilterArray = sortRecette.filter(
+				(ele, pos) => sortRecette.indexOf(ele) == pos
+			);
+		}
+
+		if (sortRecette == "" && search.length < 2) {
+			recipes.forEach((recipes) => {
+				const recette = generateRecipe(recipes);
+				divcard.appendChild(recette);
+			});
 			if (
 				tagIngredients.length == 0 &&
 				tagAppareil.length == 0 &&
 				tagUstensiles.length == 0
 			) {
-				generateSearchListfiltre(recettefilterArray);
-				recettefilterArray.forEach((recettefilterArray) => {
-					const searchList = generateRecipe(recettefilterArray);
-					divcard.appendChild(searchList);
+				clearFilterList();
+				filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
+					//
+					const search = generateListeIngredients(filtereIngredientsdArray);
+					//
+					ingredientsList.appendChild(search);
 				});
+				//appareil
+				filtereAppareildArray.forEach((filtereAppareildArray) => {
+					//
+					const search = generateListAppareil(filtereAppareildArray);
+					//
+					appareilList.appendChild(search);
+				});
+				//ustensiles
+				filtereUstensilesArray.forEach((filtereUstensilesArray) => {
+					//
+					const search = generateListeUstensiles(filtereUstensilesArray);
+					//
+					ustensilesList.appendChild(search);
+				});
+			}
+		} else {
+			if (sortRecette == "" && search.length >= 3) {
+				divcard.innerHTML = `<h2>Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc</h2>`;
+			} else {
+				if (
+					tagIngredients.length == 0 &&
+					tagAppareil.length == 0 &&
+					tagUstensiles.length == 0
+				) {
+					generateSearchListfiltre(recettefilterArray);
+					recettefilterArray.forEach((recettefilterArray) => {
+						const searchList = generateRecipe(recettefilterArray);
+						divcard.appendChild(searchList);
+					});
+				}
 			}
 		}
 	}
@@ -757,8 +772,7 @@ function rechercheTagIngredients(sortRecette) {
 						.toLocaleLowerCase()
 						.includes(element)
 				);
-
-				if (intersection.length == 1) {
+				if (intersection.length >= 1) {
 					const count = data.push(recettefilterArray);
 				} else {
 				}
@@ -807,6 +821,108 @@ function rechercheTagUstensiles(sortRecette) {
 		}
 	});
 	return data;
+}
+function rechercheAllTag(sortRecette) {
+	recettefilterArray = sortRecette.filter(
+		(ele, pos) => sortRecette.indexOf(ele) == pos
+	);
+	var dataIngredients = [];
+	var dataAppareil = [];
+	var dataUstensiles = [];
+	var allTagData = [];
+	recettefilterArray.forEach((recettefilterArray) => {
+		//recherche via tag via ingredient puis appareil puis ustensiles
+		if (tagIngredients.length >= 1) {
+			dataIngredients = rechercheTagIngredients(sortRecette);
+			generateSearchListfiltre(dataIngredients);
+			generateRecipeTag(dataIngredients);
+			if (tagAppareil.length >= 1) {
+				dataAppareil = rechercheTagAppareil(dataIngredients);
+				generateSearchListfiltre(dataAppareil);
+				generateRecipeTag(dataAppareil);
+				if (tagUstensiles.length >= 1) {
+					dataUstensiles = rechercheTagUstensiles(dataAppareil);
+					generateSearchListfiltre(dataUstensiles);
+					generateRecipeTag(dataUstensiles);
+				}
+			}
+			//recherche via tag via ingredient puis ustensiles et appareil
+		} else if (tagIngredients.length >= 1) {
+			dataIngredients = rechercheTagIngredients(sortRecette);
+			generateSearchListfiltre(dataIngredients);
+			generateRecipeTag(dataIngredients);
+			if (tagUstensiles.length >= 1) {
+				dataUstensiles = rechercheTagUstensiles(dataIngredients);
+				generateSearchListfiltre(dataUstensiles);
+				generateRecipeTag(dataUstensiles);
+				if (tagAppareil.length >= 1) {
+					dataAppareil = rechercheTagAppareil(dataUstensiles);
+					generateSearchListfiltre(dataAppareil);
+					generateRecipeTag(dataAppareil);
+				}
+			}
+			//recherche via tag via appareil puis ustensiles et ingredient
+		} else if (tagAppareil.length >= 1) {
+			dataAppareil = rechercheTagAppareil(sortRecette);
+			generateSearchListfiltre(dataAppareil);
+			generateRecipeTag(dataAppareil);
+			if (tagUstensiles.length >= 1) {
+				dataUstensiles = rechercheTagUstensiles(dataAppareil);
+				generateSearchListfiltre(dataUstensiles);
+				generateRecipeTag(dataUstensiles);
+				if (tagIngredients.length >= 1) {
+					dataIngredients = rechercheTagIngredients(dataUstensiles);
+					generateSearchListfiltre(dataIngredients);
+					generateRecipeTag(dataIngredients);
+				}
+			}
+			//recherche via tag via appareil puis ingredient et ustensiles
+		} else if (tagAppareil.length >= 1) {
+			dataAppareil = rechercheTagAppareil(sortRecette);
+			generateSearchListfiltre(dataAppareil);
+			generateRecipeTag(dataAppareil);
+			if (tagIngredients.length >= 1) {
+				dataIngredients = rechercheTagIngredients(dataAppareil);
+				generateSearchListfiltre(dataIngredients);
+				generateRecipeTag(dataIngredients);
+				if (tagUstensiles.length >= 1) {
+					dataUstensiles = rechercheTagUstensiles(dataIngredients);
+					generateSearchListfiltre(dataUstensiles);
+					generateRecipeTag(dataUstensiles);
+				}
+			}
+			//recherche via tag via ustensiles puis appareil et ingredient
+		} else if (tagUstensiles.length >= 1) {
+			dataUstensiles = rechercheTagUstensiles(sortRecette);
+			generateSearchListfiltre(dataUstensiles);
+			generateRecipeTag(dataUstensiles);
+			if (tagAppareil.length >= 1) {
+				dataAppareil = rechercheTagAppareil(dataUstensiles);
+				generateSearchListfiltre(dataAppareil);
+				generateRecipeTag(dataAppareil);
+				if (tagIngredients.length >= 1) {
+					dataIngredients = rechercheTagIngredients(dataAppareil);
+					generateSearchListfiltre(dataIngredients);
+					generateRecipeTag(dataIngredients);
+				}
+			}
+			//recherche via tag via ustensiles puis ingredient et appareil
+		} else if (tagUstensiles.length >= 1) {
+			dataUstensiles = rechercheTagUstensiles(sortRecette);
+			generateSearchListfiltre(dataUstensiles);
+			generateRecipeTag(dataUstensiles);
+			if (tagIngredients.length >= 1) {
+				dataIngredients = rechercheTagIngredients(dataUstensiles);
+				generateSearchListfiltre(dataIngredients);
+				generateRecipeTag(dataIngredients);
+				if (tagAppareil.length >= 1) {
+					dataAppareil = rechercheTagAppareil(dataIngredients);
+					generateSearchListfiltre(dataAppareil);
+					generateRecipeTag(dataAppareil);
+				}
+			}
+		}
+	});
 }
 //-----------------------------------------------------------------------------
 // recherche secondaire ingredients
