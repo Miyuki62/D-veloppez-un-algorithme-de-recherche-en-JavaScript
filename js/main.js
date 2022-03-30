@@ -155,13 +155,14 @@ const creationTagIngredients = (event) => {
 	const tagChoisis = document.querySelectorAll(".tag-select-choix");
 	const tagClose = document.querySelectorAll(".close-tag");
 	const parent = document.getElementsByName(data);
-	const count = tagIngredients.push(data);
+	const count = tagIngredients.push(data.toLocaleLowerCase());
 	try {
 		parent[1].style.display = "none";
 	} catch (error) {
 		parent[0].style.display = "none";
 	}
-	const us = SuppressionTag(tagClose, tagChoisis);
+	getResults();
+	SuppressionTag(tagClose, tagChoisis);
 };
 //permet la creation des tag appareil
 const creationTagAppareil = (event) => {
@@ -172,14 +173,21 @@ const creationTagAppareil = (event) => {
 	const tagChoisis = document.querySelectorAll(".tag-select-choix");
 	const tagClose = document.querySelectorAll(".close-tag");
 	const parent = document.getElementsByName(data);
-	const count = tagAppareil.push(data);
+	const count = tagAppareil.push(data.toLocaleLowerCase());
 	if (data === "Casserole" || data === "Saladier") {
-		parent[0].style.display = "none";
+		try {
+			parent[0].style.display = "none";
+		} catch (error) {
+			parent[1].style.display = "none";
+		}
 	} else {
-		parent[0].style.display = "none";
+		try {
+			parent[0].style.display = "none";
+		} catch (error) {
+			parent[1].style.display = "none";
+		}
 	}
-	parent[0].style.display = "none";
-
+	getResults();
 	SuppressionTag(tagClose, tagChoisis);
 };
 //permet la creation des tag ustensiles
@@ -191,13 +199,21 @@ const creationTagUstensiles = (event) => {
 	const tagChoisis = document.querySelectorAll(".tag-select-choix");
 	const tagClose = document.querySelectorAll(".close-tag");
 	const parent = document.getElementsByName(data);
-	const count = tagUstensiles.push(data);
+	const count = tagUstensiles.push(data.toLocaleLowerCase());
 	if (data === "Casserole" || data === "Saladier") {
-		parent[1].style.display = "none";
+		try {
+			parent[1].style.display = "none";
+		} catch (error) {
+			parent[0].style.display = "none";
+		}
 	} else {
-		parent[0].style.display = "none";
+		try {
+			parent[0].style.display = "none";
+		} catch (error) {
+			parent[1].style.display = "none";
+		}
 	}
-
+	getResults();
 	SuppressionTag(tagClose, tagChoisis);
 };
 
@@ -211,48 +227,63 @@ const SuppressionTag = (close, tag) => {
 			);
 			if (tag[index].dataset.tag.includes("ingredients")) {
 				tag[index].remove();
+				let tagcreator = document.getElementsByName(tag[index].textContent);
+				try {
+					tagcreator[0].style.display = "block";
+				} catch (error) {}
 				const positionTagInArray = tagIngredients.indexOf(
-					tag[index].textContent
+					tag[index].textContent.toLocaleLowerCase()
 				);
 				if (positionTagInArray > -1) {
 					tagIngredients.splice(positionTagInArray, 1);
 				}
-				let tagcreator = document.getElementsByName(tag[index].textContent);
-				tagcreator[0].style.display = "block";
+				getResults();
 			}
 			if (tag[index].dataset.tag.includes("appareil")) {
 				tag[index].remove();
-				const positionTagInArray = tagAppareil.indexOf(tag[index].textContent);
-				if (positionTagInArray > -1) {
-					tagAppareil.splice(positionTagInArray, 1);
-				}
 				let tagcreator = document.getElementsByName(tag[index].textContent);
 				if (
 					tag[index].textContent === "Casserole" ||
 					tag[index].textContent === "Saladier"
 				) {
-					tagcreator[0].style.display = "block";
+					try {
+						tagcreator[0].style.display = "block";
+					} catch (error) {}
 				} else {
-					tagcreator[0].style.display = "block";
+					try {
+						tagcreator[0].style.display = "block";
+					} catch (error) {}
 				}
+				const positionTagInArray = tagAppareil.indexOf(
+					tag[index].textContent.toLocaleLowerCase()
+				);
+				if (positionTagInArray > -1) {
+					tagAppareil.splice(positionTagInArray, 1);
+				}
+				getResults();
 			}
 			if (tag[index].dataset.tag.includes("ustensiles")) {
 				tag[index].remove();
+				let tagcreator = document.getElementsByName(tag[index].textContent);
+				if (
+					tag[index].textContent === "Casserole" ||
+					tag[index].textContent === "Saladier"
+				) {
+					try {
+						tagcreator[1].style.display = "block";
+					} catch (error) {}
+				} else {
+					try {
+						tagcreator[0].style.display = "block";
+					} catch (error) {}
+				}
 				const positionTagInArray = tagUstensiles.indexOf(
-					tag[index].textContent
+					tag[index].textContent.toLocaleLowerCase()
 				);
 				if (positionTagInArray > -1) {
 					tagUstensiles.splice(positionTagInArray, 1);
 				}
-				let tagcreator = document.getElementsByName(tag[index].textContent);
-				if (
-					tag[index].textContent === "Casserole" ||
-					tag[index].textContent === "Saladier"
-				) {
-					tagcreator[1].style.display = "block";
-				} else {
-					tagcreator[0].style.display = "block";
-				}
+				getResults();
 			}
 		});
 	});
@@ -289,7 +320,6 @@ function generateListeIngredients(data) {
 	filteringredientsListItem.setAttribute("data-categorie", "ingredients");
 	//
 	filteringredientsListItem.addEventListener("click", creationTagIngredients);
-	//filteringredientsListItem.addEventListener("click", getResults);
 	//
 	return filteringredientsListItem;
 }
@@ -349,7 +379,6 @@ function generateListAppareil(data) {
 	filterAppareilListItem.setAttribute("data-categorie", "appareil");
 	//
 	filterAppareilListItem.addEventListener("click", creationTagAppareil);
-	//filterAppareilListItem.addEventListener("click", getResults);
 	//
 	return filterAppareilListItem;
 }
@@ -405,7 +434,6 @@ function generateListeUstensiles(data) {
 	filterUstensilesListItem.setAttribute("data-categorie", "ustensiles");
 	//
 	filterUstensilesListItem.addEventListener("click", creationTagUstensiles);
-	//filterUstensilesListItem.addEventListener("click", getResults);
 	//
 	return filterUstensilesListItem;
 }
@@ -583,6 +611,12 @@ function clearAll() {
 	ustensilesList.innerHTML = "";
 	tagContainer.innerHTML = "";
 }
+function clearFilterList() {
+	ingredientsList.innerHTML = "";
+	appareilList.innerHTML = "";
+	ustensilesList.innerHTML = "";
+	tagContainer.innerHTML = "";
+}
 
 function getResults() {
 	const search = selectElement(".recherche-principal").value;
@@ -648,27 +682,33 @@ function getResults() {
 			const recette = generateRecipe(recipes);
 			divcard.appendChild(recette);
 		});
-
-		filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
-			//
-			const search = generateListeIngredients(filtereIngredientsdArray);
-			//
-			ingredientsList.appendChild(search);
-		});
-		//appareil
-		filtereAppareildArray.forEach((filtereAppareildArray) => {
-			//
-			const search = generateListAppareil(filtereAppareildArray);
-			//
-			appareilList.appendChild(search);
-		});
-		//ustensiles
-		filtereUstensilesArray.forEach((filtereUstensilesArray) => {
-			//
-			const search = generateListeUstensiles(filtereUstensilesArray);
-			//
-			ustensilesList.appendChild(search);
-		});
+		if (
+			tagIngredients.length == 0 &&
+			tagAppareil.length == 0 &&
+			tagUstensiles.length == 0
+		) {
+			clearFilterList();
+			filtereIngredientsdArray.forEach((filtereIngredientsdArray) => {
+				//
+				const search = generateListeIngredients(filtereIngredientsdArray);
+				//
+				ingredientsList.appendChild(search);
+			});
+			//appareil
+			filtereAppareildArray.forEach((filtereAppareildArray) => {
+				//
+				const search = generateListAppareil(filtereAppareildArray);
+				//
+				appareilList.appendChild(search);
+			});
+			//ustensiles
+			filtereUstensilesArray.forEach((filtereUstensilesArray) => {
+				//
+				const search = generateListeUstensiles(filtereUstensilesArray);
+				//
+				ustensilesList.appendChild(search);
+			});
+		}
 	} else {
 		if (sortRecette == "" && search.length >= 3) {
 			divcard.innerHTML = `<h2>Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc</h2>`;
@@ -711,12 +751,17 @@ function rechercheTagIngredients(sortRecette) {
 	var data = [];
 	recettefilterArray.forEach((recettefilterArray) => {
 		for (var b = 0; b < tagIngredients.length; b++) {
-			const intersection = tagIngredients.filter((element) =>
-				recettefilterArray.appliance.includes(element)
-			);
-			if (intersection.length == 1) {
-				const count = data.push(recettefilterArray);
-			} else {
+			for (var a = 0; a < recettefilterArray.ingredients.length; a++) {
+				const intersection = tagIngredients.filter((element) =>
+					recettefilterArray.ingredients[a].ingredient
+						.toLocaleLowerCase()
+						.includes(element)
+				);
+
+				if (intersection.length == 1) {
+					const count = data.push(recettefilterArray);
+				} else {
+				}
 			}
 		}
 	});
@@ -731,7 +776,7 @@ function rechercheTagAppareil(sortRecette) {
 	recettefilterArray.forEach((recettefilterArray) => {
 		for (var b = 0; b < tagAppareil.length; b++) {
 			const intersection = tagAppareil.filter((element) =>
-				recettefilterArray.appliance.includes(element)
+				recettefilterArray.appliance.toLocaleLowerCase().includes(element)
 			);
 			if (intersection.length == 1) {
 				const count = data.push(recettefilterArray);
@@ -749,12 +794,15 @@ function rechercheTagUstensiles(sortRecette) {
 	var data = [];
 	recettefilterArray.forEach((recettefilterArray) => {
 		for (var b = 0; b < tagUstensiles.length; b++) {
-			const intersection = tagUstensiles.filter((element) =>
-				recettefilterArray.appliance.includes(element)
-			);
-			if (intersection.length == 1) {
-				const count = data.push(recettefilterArray);
-			} else {
+			for (var a = 0; a < recettefilterArray.ustensils.length; a++) {
+				const intersection = tagUstensiles.filter((element) =>
+					recettefilterArray.ustensils[a].toLocaleLowerCase().includes(element)
+				);
+
+				if (intersection.length == 1) {
+					const count = data.push(recettefilterArray);
+				} else {
+				}
 			}
 		}
 	});
