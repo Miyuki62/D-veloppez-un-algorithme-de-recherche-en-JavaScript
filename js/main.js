@@ -22,10 +22,11 @@ var tagUstensiles = [];
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-function intersect(a, b) {
-	const intersection = a.filter((element) => b.appliance.includes(element));
-	return intersection;
+//filtre les array des doublon
+function filterArray(data) {
+	var datafilter = [];
+	datafilter = data.filter((ele, pos) => data.indexOf(ele) == pos);
+	return datafilter;
 }
 //-----------------------------------------------------------------------------
 //gestion des Filtre
@@ -342,13 +343,33 @@ function generateSearchListIngredients(recetteIngredientsdArray) {
 		(ele, pos) => searchArrayIngredients.indexOf(ele) == pos
 	);
 	ingredientsList.innerHTML = "";
-
-	searchFiltereIngredientsdArray.forEach((searchFiltereIngredientsdArray) => {
-		//
-		const search = generateListeIngredients(searchFiltereIngredientsdArray);
-		//
-		ingredientsList.appendChild(search);
-	});
+	for (let a = 0; a < tagIngredients.length; a++) {
+		for (let i = 0; i < searchFiltereIngredientsdArray.length; i++) {
+			if (tagIngredients[a] == searchFiltereIngredientsdArray[i]) {
+				const positionTagInArray = searchFiltereIngredientsdArray.indexOf(
+					tagIngredients[a]
+				);
+				if (positionTagInArray > -1) {
+					searchFiltereIngredientsdArray.splice(positionTagInArray, 1);
+				}
+			}
+		}
+	}
+	// si il n'y a pas de autre ingredient a part des doublon ne les affiche plus
+	if (
+		searchFiltereIngredientsdArray.length == 0 &&
+		tagIngredients.length >= 1
+	) {
+		ingredientsList.innerHTML = "aucun résultat";
+	}
+	// si il y a autre chose que les doublon les affiche
+	else {
+		searchFiltereIngredientsdArray.forEach((searchFiltereIngredientsdArray) => {
+			const search = generateListeIngredients(searchFiltereIngredientsdArray);
+			//
+			ingredientsList.appendChild(search);
+		});
+	}
 }
 //-----------------------------------------------------------------------------
 //filtrage de l'array pour les Appareil
@@ -383,6 +404,7 @@ function generateListAppareil(data) {
 }
 //generation des appareil en fonction de la recherche
 function generateSearchListAppareil(recetteAppareildArray) {
+	const search = selectElement(".recherche-principal").value;
 	var searchArrayAppareilTemp = [];
 	var searchArrayAppareil = [];
 	recetteAppareildArray.forEach((recetteAppareildArray) => {
@@ -398,12 +420,30 @@ function generateSearchListAppareil(recetteAppareildArray) {
 		(ele, pos) => searchArrayAppareil.indexOf(ele) == pos
 	);
 	appareilList.innerHTML = "";
-	searchFiltereAppareildArray.forEach((searchFiltereAppareildArray) => {
-		//
-		const search = generateListAppareil(searchFiltereAppareildArray);
-		//
-		appareilList.appendChild(search);
-	});
+	for (let i = 0; i < searchFiltereAppareildArray.length; i++) {
+		for (let a = 0; a < tagAppareil.length; a++) {
+			if (tagAppareil[a] == searchFiltereAppareildArray[i]) {
+				const positionTagInArray = searchFiltereAppareildArray.indexOf(
+					tagAppareil[a]
+				);
+				if (positionTagInArray > -1) {
+					searchFiltereAppareildArray.splice(positionTagInArray, 1);
+				}
+			}
+		}
+	}
+	// si il n'y a pas de autre Appareil a part des doublon ne les affiche plus
+	if (searchFiltereAppareildArray.length == 0 && tagAppareil.length >= 1) {
+		appareilList.innerHTML = "aucun résultat";
+	}
+	// si il y a autre chose que les oublon les affiche
+	else {
+		searchFiltereAppareildArray.forEach((searchFiltereAppareildArray) => {
+			const search = generateListAppareil(searchFiltereAppareildArray);
+			//
+			appareilList.appendChild(search);
+		});
+	}
 }
 //-----------------------------------------------------------------------------
 //filtrage de l'array pour les ustensiles
@@ -457,12 +497,30 @@ function generateSearchLisUstensiles(recetteUstensilesdArray) {
 		(ele, pos) => searchArrayUstensiles.indexOf(ele) == pos
 	);
 	ustensilesList.innerHTML = "";
-	searchFiltereUstensilesdArray.forEach((searchFiltereUstensilesdArray) => {
-		//
-		const search = generateListeUstensiles(searchFiltereUstensilesdArray);
-		//
-		ustensilesList.appendChild(search);
-	});
+	for (let a = 0; a < tagUstensiles.length; a++) {
+		for (let i = 0; i < searchFiltereUstensilesdArray.length; i++) {
+			if (tagUstensiles[a] == searchFiltereUstensilesdArray[i]) {
+				const positionTagInArray = searchFiltereUstensilesdArray.indexOf(
+					tagUstensiles[a]
+				);
+				if (positionTagInArray > -1) {
+					searchFiltereUstensilesdArray.splice(positionTagInArray, 1);
+				}
+			}
+		}
+	}
+	// si il n'y a pas de autre ustensiles a part des doublon ne les affiche plus
+	if (searchFiltereUstensilesdArray.length == 0 && tagUstensiles.length >= 1) {
+		ustensilesList.innerHTML = "aucun résultat";
+	}
+	// si il y a autre chose que les doublon les affiche
+	else {
+		searchFiltereUstensilesdArray.forEach((searchFiltereUstensilesdArray) => {
+			const search = generateListeUstensiles(searchFiltereUstensilesdArray);
+			//
+			ustensilesList.appendChild(search);
+		});
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -685,10 +743,7 @@ function getResults() {
 					}
 				}
 			}
-
-			recettefilterArray = sortRecette.filter(
-				(ele, pos) => sortRecette.indexOf(ele) == pos
-			);
+			recettefilterArray = filterArray(sortRecette);
 		}
 
 		if (sortRecette == "" && search.length < 2) {
@@ -747,52 +802,39 @@ selectElement(".recherche-principal").addEventListener("keyup", getResults);
 // recherche avec les filtre
 //-----------------------------------------------------------------------------
 function generateSearchListfiltre(data) {
-	generateSearchListIngredients(data);
-	generateSearchListAppareil(data);
-	generateSearchLisUstensiles(data);
+	const datafilter = filterArray(data);
+	generateSearchListIngredients(datafilter);
+	generateSearchLisUstensiles(datafilter);
+	generateSearchListAppareil(datafilter);
 }
 
 function generateRecipeTag(data) {
 	selectElement(".card-Container").innerHTML = "";
-	data.forEach((data) => {
-		const searchList = generateRecipe(data);
+	const datafilter = filterArray(data);
+	datafilter.forEach((datafilter) => {
+		const searchList = generateRecipe(datafilter);
 		divcard.appendChild(searchList);
 	});
 }
 function rechercheTagIngredients(sortRecette) {
-	recettefilterArray = sortRecette.filter(
-		(ele, pos) => sortRecette.indexOf(ele) == pos
-	);
+	recettefilterArray = filterArray(sortRecette);
 	var data = [];
 	recettefilterArray.forEach((recettefilterArray) => {
-		for (var b = 0; b < tagIngredients.length; b++) {
-			for (var a = 0; a < recettefilterArray.ingredients.length; a++) {
-				const intersection = tagIngredients.filter((element) =>
-					recettefilterArray.ingredients[a].ingredient
-						.toLocaleLowerCase()
-						.includes(element)
-				);
-				if (intersection.length >= 1) {
-					const count = data.push(recettefilterArray);
-				} else {
-				}
-			}
-		}
-	});
-	return data;
-}
-
-function rechercheTagAppareil(sortRecette) {
-	recettefilterArray = sortRecette.filter(
-		(ele, pos) => sortRecette.indexOf(ele) == pos
-	);
-	var data = [];
-	recettefilterArray.forEach((recettefilterArray) => {
-		for (var b = 0; b < tagAppareil.length; b++) {
-			const intersection = tagAppareil.filter((element) =>
-				recettefilterArray.appliance.toLocaleLowerCase().includes(element)
+		for (var a = 0; a < recettefilterArray.ingredients.length; a++) {
+			let checker = (arr, target) => target.every((v) => arr.includes(v));
+			console.log(
+				checker(
+					recettefilterArray.ingredients[a].ingredient.toLocaleLowerCase(),
+					tagIngredients
+				)
 			);
-			if (intersection.length == 1) {
+
+			if (
+				checker(
+					recettefilterArray.ingredients[a].ingredient.toLocaleLowerCase(),
+					tagIngredients
+				) === true
+			) {
 				const count = data.push(recettefilterArray);
 			} else {
 			}
@@ -801,31 +843,36 @@ function rechercheTagAppareil(sortRecette) {
 	return data;
 }
 
-function rechercheTagUstensiles(sortRecette) {
-	recettefilterArray = sortRecette.filter(
-		(ele, pos) => sortRecette.indexOf(ele) == pos
-	);
+function rechercheTagAppareil(sortRecette) {
+	recettefilterArray = filterArray(sortRecette);
 	var data = [];
 	recettefilterArray.forEach((recettefilterArray) => {
-		for (var b = 0; b < tagUstensiles.length; b++) {
-			for (var a = 0; a < recettefilterArray.ustensils.length; a++) {
-				const intersection = tagUstensiles.filter((element) =>
-					recettefilterArray.ustensils[a].toLocaleLowerCase().includes(element)
-				);
+		let checker = (arr, target) => target.every((v) => arr.includes(v));
+		if (
+			checker(recettefilterArray.appliance.toLocaleLowerCase(), tagAppareil) ===
+			true
+		) {
+			const count = data.push(recettefilterArray);
+		} else {
+		}
+	});
+	return data;
+}
 
-				if (intersection.length == 1) {
-					const count = data.push(recettefilterArray);
-				} else {
-				}
-			}
+function rechercheTagUstensiles(sortRecette) {
+	recettefilterArray = filterArray(sortRecette);
+	var data = [];
+	recettefilterArray.forEach((recettefilterArray) => {
+		let checker = (arr, target) => target.every((v) => arr.includes(v));
+		if (checker(recettefilterArray.ustensils, tagUstensiles) === true) {
+			const count = data.push(recettefilterArray);
+		} else {
 		}
 	});
 	return data;
 }
 function rechercheAllTag(sortRecette) {
-	recettefilterArray = sortRecette.filter(
-		(ele, pos) => sortRecette.indexOf(ele) == pos
-	);
+	recettefilterArray = filterArray(sortRecette);
 	var dataIngredients = [];
 	var dataAppareil = [];
 	var dataUstensiles = [];
@@ -994,13 +1041,18 @@ function checkAppareil() {
 				ouvertureListeAppareil();
 				fermetureListeIngredients();
 				fermetureListeUstensiles();
-				const searchList = generateListAppareil(filtereAppareildArray);
-				appareilList.appendChild(searchList);
+				if (tagAppareil.length >= 1) {
+					appareilList.innerHTML = "aucun résultat";
+				} else {
+					const searchList = generateListAppareil(filtereAppareildArray);
+					appareilList.appendChild(searchList);
+				}
 			}
 		});
 	}
 	function getAppareilInSearchResults() {
 		const search = selectElement(".appareil-input").value;
+		const listcontent = selectElement(".liste-appareil").value;
 		appareilList.innerHTML = "";
 		searchFiltereAppareildArray.forEach((searchFiltereAppareildArray) => {
 			if (
@@ -1011,8 +1063,12 @@ function checkAppareil() {
 				ouvertureListeAppareil();
 				fermetureListeIngredients();
 				fermetureListeUstensiles();
-				const searchList = generateListAppareil(searchFiltereAppareildArray);
-				appareilList.appendChild(searchList);
+				if (tagAppareil.length >= 1) {
+					appareilList.innerHTML = "aucun résultat";
+				} else {
+					const searchList = generateListAppareil(searchFiltereAppareildArray);
+					appareilList.appendChild(searchList);
+				}
 			}
 		});
 	}
