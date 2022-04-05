@@ -820,24 +820,17 @@ function rechercheTagIngredients(sortRecette) {
 	recettefilterArray = filterArray(sortRecette);
 	var data = [];
 	recettefilterArray.forEach((recettefilterArray) => {
+		var ingredientrecette = [];
 		for (var a = 0; a < recettefilterArray.ingredients.length; a++) {
-			let checker = (arr, target) => target.every((v) => arr.includes(v));
-			console.log(
-				checker(
-					recettefilterArray.ingredients[a].ingredient.toLocaleLowerCase(),
-					tagIngredients
-				)
+			const count = ingredientrecette.push(
+				recettefilterArray.ingredients[a].ingredient.toLocaleLowerCase()
 			);
+		}
+		let checker = (arr, target) => target.every((v) => arr.includes(v));
 
-			if (
-				checker(
-					recettefilterArray.ingredients[a].ingredient.toLocaleLowerCase(),
-					tagIngredients
-				) === true
-			) {
-				const count = data.push(recettefilterArray);
-			} else {
-			}
+		if (checker(ingredientrecette, tagIngredients) === true) {
+			const count = data.push(recettefilterArray);
+		} else {
 		}
 	});
 	return data;
