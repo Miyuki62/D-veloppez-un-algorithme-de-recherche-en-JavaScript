@@ -747,10 +747,6 @@ function getResults() {
 		}
 
 		if (sortRecette == "" && search.length < 2) {
-			recipes.forEach((recipes) => {
-				const recette = generateRecipe(recipes);
-				divcard.appendChild(recette);
-			});
 			if (
 				tagIngredients.length == 0 &&
 				tagAppareil.length == 0 &&
