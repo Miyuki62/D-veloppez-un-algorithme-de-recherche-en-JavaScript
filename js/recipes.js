@@ -766,7 +766,7 @@ const recipes = [
 		description:
 			"Cuisiner la viande hachée dans une poelle à frire. Dans une autre faire cuire les oignons découpés en fins dés avec un peu de beurre. Ajouter du vin rouge. Mélanger les oigons avec la viande hachée. Faire cuire les pates le temps indiqué sur le paquet. Ajouter le coulis de tomates à la viande hachée. Une fois que les pates sont cuites, ajouter la Crème fraîche à la viande hachée. Serivir.",
 		appliance: "casserole",
-		ustensils: ["Cuillère en bois", "louche", "couteau"],
+		ustensils: ["cuillère en bois", "louche", "couteau"],
 	},
 	{
 		id: 22,
@@ -1373,7 +1373,7 @@ const recipes = [
 		description:
 			"Fouettez les oeufs, le sucre et le lait. tremper les tranches de pain. Le cuire au four pendant environ 10 minutes à 180°. Servir",
 		appliance: "Four",
-		ustensils: ["fouet", "bol", "Cuillère à Soupe"],
+		ustensils: ["fouet", "bol", "cuillère à soupe"],
 	},
 	{
 		id: 39,
