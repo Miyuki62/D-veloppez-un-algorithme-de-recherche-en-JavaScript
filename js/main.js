@@ -773,6 +773,12 @@ function getResults() {
 					//
 					ustensilesList.appendChild(search);
 				});
+				if (sortRecette == "" && search.length == 0) {
+					recipes.forEach((recipes) => {
+						const recette = generateRecipe(recipes);
+						divcard.appendChild(recette);
+					});
+				}
 			}
 		} else {
 			if (sortRecette == "" && search.length >= 3) {
