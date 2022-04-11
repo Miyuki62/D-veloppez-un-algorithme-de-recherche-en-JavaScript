@@ -826,12 +826,14 @@ function getResults() {
 					//
 					ustensilesList.appendChild(search);
 				});
-				recipesfusion.forEach((recipesfusion) => {
-					//
-					const search = generateRecipe(recipesfusion);
-					//
-					divcard.appendChild(search);
-				});
+				if (sortRecette == "" && search.length == 0) {
+					recipesfusion.forEach((recipesfusion) => {
+						//
+						const search = generateRecipe(recipesfusion);
+						//
+						divcard.appendChild(search);
+					});
+				}
 			}
 		} else {
 			if (sortRecette == "" && search.length >= 3) {
